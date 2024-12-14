@@ -7,6 +7,24 @@
 
 ## Установка и запуск
 
+### Интеграция с Prometheus
+1. Добавьте экспортёр в файл конфигурации Prometheus (prometheus.yml):
+ ```yaml
+  scrape_configs:
+  - job_name: "custom_exporter"
+    metrics_path: "/"  # Укажите путь к метрикам
+    static_configs:
+      - targets: ["localhost:8081"]
+   ```
+2. Перезапустите Prometheus:
+ ```bash
+   ./prometheus --config.file=prometheus.yml
+   ```
+3. Проверьте статус в Prometheus:
+ ```bash
+   http://localhost:9090/targets
+   ```
+
 ### Требования
 - Python 3.7 или выше
 - Установленные библиотеки `psutil` и `python-dotenv`
@@ -31,7 +49,7 @@
  ```bash
    python exporter.py
    ```
-2. Приложение запустится на указанном хосте и порту (по умолчанию http://0.0.0.0:8081).
+2. Приложение запустится на указанном хосте и порту (по умолчанию http://0.0.0.0:8081/).
 
 ## Метрики
 Экспортёр предоставляет следующие метрики:
@@ -78,20 +96,5 @@
    disk_used
    ```
 
-## Интеграция с Prometheus
-1. Добавьте экспортёр в файл конфигурации Prometheus (prometheus.yml):
- ```yaml
-  scrape_configs:
-  - job_name: "custom_exporter"
-    metrics_path: "/"  # Укажите путь к метрикам
-    static_configs:
-      - targets: ["localhost:8081"]
-   ```
-2. Перезапустите Prometheus:
- ```bash
-   ./prometheus --config.file=prometheus.yml
-   ```
-3. Проверьте статус в Prometheus:
- ```bash
-   http://localhost:9090/targets
-   ```
+
+
